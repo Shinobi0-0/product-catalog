@@ -1,18 +1,16 @@
-# Laboratory Exercise 3: React Props and Component Communication
+## Lab 4 Guide Questions
 
-## Guide Questions
+1. **Why do we use two separate states, `searchText` and `debouncedSearch`, instead of only one?**
+   `searchText` updates immediately on every keystroke so the controlled input stays responsive, while `debouncedSearch` updates only after a 300ms pause so filtering doesn't run on every single keystroke.
 
-1. **What is the difference between props and state?**
-   Props are read-only inputs passed from a parent component to a child component, while state is data managed inside a component that can change over time and trigger re-renders.
+2. **What would happen if the debounce effect did not return a cleanup function?**
+   Each keystroke would leave its own `setTimeout` active instead of resetting the timer when typing continues, causing extra or delayed updates after typing stops.
 
-2. **Why can a child component not modify the props it receives?**
-   Props belong to the parent component and follow one-way data flow; mutating them directly would break predictability and make state updates harder to track across components.
+3. **What is the purpose of the dependency array? What happens if it is empty (`[]`)? What happens if it is left out completely?**
+   The dependency array controls when `useEffect` re-runs based on watched values. An empty array `[]` runs the effect only once on mount, while omitting it completely runs the effect after every render.
 
-3. **How does the `onAddToCart` callback allow data to flow from child to parent even though props only flow downward?**
-   `App` passes the `onAddToCart` function down as a prop to `ProductCard`, and when the button is clicked, `ProductCard` invokes that function with the product title so `App` can update its own state.
+4. **Why should we avoid sorting the original `products` array directly?**
+   `.sort()` mutates an array in place, which can alter the original product order unexpectedly; copying first (like `[...products]`) keeps the source array intact.
 
-4. **Why is the `key` prop required when rendering a list with `.map()`? What could happen if it is missing or duplicated?**
-   `key` helps React identify which list items changed, were added, or were removed. Missing keys cause React warnings and less reliable list updates, while duplicate keys can cause rendering or state bugs on repeated items.
-
-5. **What does the `children` prop allow you to do that a normal prop does not?**
-   `children` lets you pass arbitrary nested JSX elements or markup directly between opening and closing component tags (such as custom badges), making components more flexible to compose.
+5. **Is the filtered product list better stored in its own state, or calculated from existing state during rendering? Explain your choice.**
+   Calculating it during rendering from existing state (`debouncedSearch`, `category`, `sortOrder`, and `products`) is better because it stays automatically in sync without duplicate state or unnecessary extra re-renders.
