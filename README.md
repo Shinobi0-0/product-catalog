@@ -1,16 +1,18 @@
-# React + Vite
+# Laboratory Exercise 3: React Props and Component Communication
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Guide Questions
 
-Currently, two official plugins are available:
+1. **What is the difference between props and state?**
+   Props are read-only inputs passed from a parent component to a child component, while state is data managed inside a component that can change over time and trigger re-renders.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+2. **Why can a child component not modify the props it receives?**
+   Props belong to the parent component and follow one-way data flow; mutating them directly would break predictability and make state updates harder to track across components.
 
-## React Compiler
+3. **How does the `onAddToCart` callback allow data to flow from child to parent even though props only flow downward?**
+   `App` passes the `onAddToCart` function down as a prop to `ProductCard`, and when the button is clicked, `ProductCard` invokes that function with the product title so `App` can update its own state.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+4. **Why is the `key` prop required when rendering a list with `.map()`? What could happen if it is missing or duplicated?**
+   `key` helps React identify which list items changed, were added, or were removed. Missing keys cause React warnings and less reliable list updates, while duplicate keys can cause rendering or state bugs on repeated items.
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+5. **What does the `children` prop allow you to do that a normal prop does not?**
+   `children` lets you pass arbitrary nested JSX elements or markup directly between opening and closing component tags (such as custom badges), making components more flexible to compose.
